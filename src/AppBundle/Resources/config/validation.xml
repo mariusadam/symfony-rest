@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="AppBundle\Entity\User">
+        <property name="email">
+            <constraint name="NotBlank" />
+            <constraint name="Email" />
+        </property>
+
+        <property name="firstName">
+            <constraint name="NotBlank"/>
+            <constraint name="Length">
+                <option name="min">3</option>
+                <option name="max">50</option>
+                <option name="minMessage">
+                    First name must be at least {{ limit }} characters long
+                </option>
+                <option name="maxMessage">
+                    First name cannot be longer than {{ limit }} characters
+                </option>
+            </constraint>
+        </property>
+
+        <property name="lastName">
+            <constraint name="NotBlank"/>
+            <constraint name="Length">
+                <option name="min">3</option>
+                <option name="max">50</option>
+                <option name="minMessage">
+                    Last name must be at least {{ limit }} characters long
+                </option>
+                <option name="maxMessage">
+                    Last name cannot be longer than {{ limit }} characters
+                </option>
+            </constraint>
+        </property>
+
+        <property name="gender">
+            <constraint name="NotBlank"/>
+            <constraint name="Choice">
+                <option name="choices">
+                    <value>Male</value>
+                    <value>Female</value>
+                    <value>Unspecified</value>
+                </option>
+                <option name="message">Choose a valid gender.</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

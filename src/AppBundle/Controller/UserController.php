@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +38,21 @@ class UserController extends FOSRestController
      */
     public function postUsersAction(Request $request)
     {
-        $data = ['postUsersAction' => 'not implemented yet'];
-        $view = $this->view($data, Response::HTTP_INTERNAL_SERVER_ERROR);
-        return $view;
+        $form = $this->createForm(UserType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->view($form, Response::HTTP_CREATED);
+        }
+
+        return $this->view($form, Response::HTTP_BAD_REQUEST);
     }
 
     /**

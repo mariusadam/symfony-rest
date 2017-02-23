@@ -18,7 +18,8 @@ framework:
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    serializer:
+          enabled: true
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
@@ -91,3 +92,11 @@ fos_rest:
         view_response_listener: 'force'
         formats:
             json: true
+    routing_loader:
+        default_format: json
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
