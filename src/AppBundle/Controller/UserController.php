@@ -25,7 +25,7 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/{userId}")
+     * @Rest\Get(path="/{userId}", name="get_user_by_id")
      */
     public function getUserByIdAction($userId)
     {
@@ -34,13 +34,38 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/")
+     * @Rest\Post(path="/", name="create_user")
      */
-    public function postUsersAction($request)
+    public function postUsersAction(Request $request)
     {
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $url = $this->generateUrl('get_user_by_id', ['userId' => $user->getId()]);
+            return $this->redirectView($url, Response::HTTP_CREATED);
+        }
+
+        return $this->view($form, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @Rest\Put(path="/{userId}", name="put_user")
+     */
+    public function putUsersAction(Request $request, $userId)
+    {
+        $user = $this->getUserById($userId);
+        $form = $this->createForm(UserType::class, $user, ['method' => 'PUT']);
+
+        // a put request should contain all the fields
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
@@ -56,12 +81,12 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("/{userId}")
+     * @Rest\Patch("/{userId}")
      */
-    public function putUserByIdAction(Request $request, $userId)
+    public function patchUserByIdAction(Request $request, $userId)
     {
         $user = $this->getUserById($userId);
-        $form = $this->createForm(UserType::class, $user, ['method' => 'PUT']);
+        $form = $this->createForm(UserType::class, $user, ['method' => 'PATCH']);
 
         // tell the form component to only update the fields passed
         // from the form, without clearing the missing fields
