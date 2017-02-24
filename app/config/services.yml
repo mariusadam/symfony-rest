@@ -7,3 +7,15 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.security.apikey_authenticator:
+        class:  AppBundle\Security\ApiKeyAuthenticator
+        public: false
+    app.webserviceuser_repository:
+        class: AppBundle\Repository\WebserviceUserRepository
+        factory: ["@doctrine", "getRepository"]
+        arguments:
+            - AppBundle\Entity\WebserviceUser
+    app.security.webserviceuser_provider:
+        class: AppBundle\Security\WebserviceUserProvider
+        arguments:
+            - "@app.webserviceuser_repository"

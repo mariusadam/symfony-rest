@@ -1,7 +1,14 @@
+default:
+    resource: AppBundle\Controller\DefaultController
+    type:     annotation
+    prefix: /api/default
+
 users:
     resource: AppBundle\Controller\UserController
     type:     annotation
+    prefix: /api/users
 
 books:
     resource: AppBundle\Controller\BookController
     type: rest
+    prefix: /api

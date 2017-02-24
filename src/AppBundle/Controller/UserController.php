@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserController extends FOSRestController
 {
     /**
-     * @Rest\Get("/users")
+     * @Rest\Get("/")
      */
     public function getUsersAction()
     {
@@ -25,7 +25,7 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/users/{userId}")
+     * @Rest\Get("/{userId}")
      */
     public function getUserByIdAction($userId)
     {
@@ -34,7 +34,7 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/users")
+     * @Rest\Post("/")
      */
     public function postUsersAction($request)
     {
@@ -56,7 +56,7 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("/users/{userId}")
+     * @Rest\Put("/{userId}")
      */
     public function putUserByIdAction(Request $request, $userId)
     {
@@ -81,7 +81,7 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Rest\Delete("/users/{userId}")
+     * @Rest\Delete("/{userId}")
      */
     public function deleteUsersByIdAction($userId)
     {
